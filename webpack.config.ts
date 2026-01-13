@@ -86,7 +86,11 @@ function watch_tavern_helper(compiler: webpack.Compiler) {
     if (!io) {
       const port = config.port ?? 6621;
       io = new Server(port, { cors: { origin: '*' } });
+<<<<<<< HEAD
       console.info(`\x1b[36m[tavern_helper]\x1b[0m 已启动酒馆监听服务, 正在监听: http://0.0.0.0:${port}`);
+=======
+      console.info(`\x1b[36m[tavern_helper]\x1b[0m 已启动酒馆监听服务`);
+>>>>>>> 5526c7827136208a6a75e0b37bc0620a9dd63ba4
       io.on('connect', socket => {
         console.info(`\x1b[36m[tavern_helper]\x1b[0m 成功连接到酒馆网页 '${socket.id}', 初始化推送...`);
         io.emit('iframe_updated');
@@ -98,7 +102,10 @@ function watch_tavern_helper(compiler: webpack.Compiler) {
 
     compiler.hooks.done.tap('watch_tavern_helper', () => {
       console.info('\n\x1b[36m[tavern_helper]\x1b[0m 检测到完成编译, 推送更新事件...');
+<<<<<<< HEAD
       io.emit('iframe_updated');
+=======
+>>>>>>> 5526c7827136208a6a75e0b37bc0620a9dd63ba4
       if (compiler.options.plugins.find(plugin => plugin instanceof HtmlWebpackPlugin)) {
         io.emit('message_iframe_updated');
       } else {
@@ -136,6 +143,10 @@ function watch_tavern_sync(compiler: webpack.Compiler) {
   compiler.hooks.watchRun.tap('watch_tavern_sync', () => {
     if (!child_process) {
       child_process = spawn('pnpm', ['sync', 'watch', 'all', '-f'], {
+<<<<<<< HEAD
+=======
+        shell: true,
+>>>>>>> 5526c7827136208a6a75e0b37bc0620a9dd63ba4
         stdio: ['ignore', 'pipe', 'pipe'],
         cwd: import.meta.dirname,
         env: { ...process.env, FORCE_COLOR: '1' },
@@ -328,6 +339,19 @@ function parse_configuration(entry: Entry): (_env: any, argv: any) => webpack.Co
                 },
               ],
             },
+<<<<<<< HEAD
+=======
+            {
+              test: /\.ya?ml$/,
+              loader: 'yaml-loader',
+              options: { asStream: true },
+              resourceQuery: /stream/,
+            },
+            {
+              test: /\.ya?ml$/,
+              loader: 'yaml-loader',
+            },
+>>>>>>> 5526c7827136208a6a75e0b37bc0620a9dd63ba4
           ].concat(
             entry.html === undefined
               ? ([
@@ -520,6 +544,7 @@ function parse_configuration(entry: Entry): (_env: any, argv: any) => webpack.Co
         return callback();
       }
 
+<<<<<<< HEAD
       const builtin = ['vue3-pixi', 'vue-demi'];
       if (builtin.includes(request)) {
         return callback();
@@ -528,6 +553,12 @@ function parse_configuration(entry: Entry): (_env: any, argv: any) => webpack.Co
         return callback();
       }
       if (['react'].some(key => request.includes(key))) {
+=======
+      if (
+        ['vue', 'vue-router', 'pixi.js'].every(key => request !== key) &&
+        ['pixi', 'react', 'vue'].some(key => request.includes(key))
+      ) {
+>>>>>>> 5526c7827136208a6a75e0b37bc0620a9dd63ba4
         return callback();
       }
       const global = {
